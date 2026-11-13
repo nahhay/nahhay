@@ -24,14 +24,14 @@ jobs:
           curl -fLsS --retry 3 --get \
             "https://gh.crafter.run/nahhay" \
             --data-urlencode "theme=dark" \
-            --data-urlencode "cols=60" \
+            --data-urlencode "cols=80" \
             --data-urlencode "image=$FOTO" \
             -o dark_mode.svg
 
           curl -fLsS --retry 3 --get \
             "https://gh.crafter.run/nahhay" \
             --data-urlencode "theme=light" \
-            --data-urlencode "cols=60" \
+            --data-urlencode "cols=80" \
             --data-urlencode "image=$FOTO" \
             -o light_mode.svg
 
