@@ -1,0 +1,50 @@
+
+name: Atualizar perfil
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar repositorio
+        uses: actions/checkout@v4
+
+      - name: Atualizar imagens
+        env:
+          FOTO: https://raw.githubusercontent.com/nahhay/nahhay/main/Foto.jfif
+        run: |
+          curl -fLsS --retry 3 --get \
+            "https://gh.crafter.run/nahhay" \
+            --data-urlencode "theme=dark" \
+            --data-urlencode "cols=140" \
+            --data-urlencode "image=$FOTO" \
+            -o dark_mode.svg
+
+          curl -fLsS --retry 3 --get \
+            "https://gh.crafter.run/nahhay" \
+            --data-urlencode "theme=light" \
+            --data-urlencode "cols=140" \
+            --data-urlencode "image=$FOTO" \
+            -o light_mode.svg
+
+      - name: Salvar atualizacao
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add dark_mode.svg light_mode.svg
+
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteracao."
+          else
+            git commit -m "Atualizar estatisticas"
+            git push
+          fi
